@@ -2,7 +2,7 @@
 This repository contains sample spring boot application for SLO demo purposes
 
 # Prerequisites
-* install java-sdk 17, docker, minikube, helm, kubectl
+* install java-sdk 17, docker, minikube, helm, kubectl, maven
 
 # Upload docker image to docker hub
 ```bash
