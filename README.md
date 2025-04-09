@@ -15,17 +15,6 @@ docker push wojciech13/wojtek:<tag-name>
 # 
 ```
 
-# Deploy to minikube
-```bash
-# build jar
-mvn clean install
-# docker build image
-docker build -t wojciech13/wojtek:<tag-name> .
-# docker push to dockerhub
-docker push wojciech13/wojtek:<tag-name>
-# 
-```
-
 # Install prometheus grafana stack on minikube (minikube must be started)
 ```bash
 # https://github.com/prometheus-community/helm-charts
@@ -37,7 +26,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack --version 45.
 kubectl get pods -n monitoring
 ```
 
-# Deploy spring boot app to cluster
+# Deploy spring boot app to minikube cluster
 ```bash
 # go to kubernetes directory
 cd kubernetes
