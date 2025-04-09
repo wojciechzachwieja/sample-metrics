@@ -59,3 +59,34 @@ kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090
 # search by SLOErrorBudgetSaturated and springboot-app-slo.rules (good_request and total_requests)
 ```
 
+# Exposing
+```bash
+# expose springboot-app, prometheus and grafana to localhost
+# springboot-app port forwarding localhost:8080
+kubectl port-forward -n monitoring svc/springboot-app 8080:8080
+# grafana port forwarding localhost:3080 - password to grafana is in config map
+kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80
+```
+
+# SLO assumptions
+* SLO is 99,9%. 99,9% of requests have status (OK) 2xx
+* Error budget is 0,1%
+* Prometheus rules are:
+1. `sum(rate(http_request_total{job="springboot-app", status=~"2.."}[5m]))` success requests
+2. `sum(rate(http_request_total{job="springboot-app"}[5m]))` total request
+* Visualization of error budget is: `(1 - (sum(slo:good_requests:rate5m) / sum(slo:total_requests:rate5m))) / 0.001`
+
+* If value is:
+`< 1.0` we are in budget
+`> 1.0` we exceeded budget
+`= 0` equals zero means there are no errors
+
+* alert `(1 - (sum(slo:good_requests:rate5m) / sum(slo:total_requests:rate5m))) / 0.001 > 1`
+
+# In order to simulate errors/ok you can send request to springboot-app
+```bash
+# simulate error
+curl localhost:8080/error
+# simulate ok
+curl localhost:8080
+```
