@@ -70,7 +70,7 @@ kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80
 `> 1.0` we exceeded budget
 `= 0` equals zero means there are no errors
 
-* alert `(1 - (sum(slo:good_requests:rate5m) / sum(slo:total_requests:rate5m))) / 0.001 > 1`
+* alert `(1 - (sum(slo:good_requests:rate5m) / sum(slo:total_requests:rate5m))) / 0.001 > 1` (trigger when exceeded error budget, so it must be above 1)
 
 # Simulate errors/ok, sending request to springboot-app (feel free to use postman or more advanced tools)
 ```bash
