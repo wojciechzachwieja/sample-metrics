@@ -1,0 +1,33 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: springboot-app-slo-rules
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: springboot-app-slo.rules
+      interval: 1m
+      rules:
+        - record: slo:good_requests:rate5m
+          expr: sum(rate(http_request_total{job="springboot-app", status=~"2.."}[5m]))
+          labels:
+            slo: "http_success"
+
+        - record: slo:total_requests:rate5m
+          expr: sum(rate(http_request_total{job="springboot-app"}[5m]))
+          labels:
+            slo: "http_total"
+    - name: slo.alerts
+      interval: 1m  # Check every minute
+      rules:
+        - alert: SLOErrorBudgetSaturated
+          expr: (1 - (sum(slo:good_requests:rate5m) / sum(slo:total_requests:rate5m))) / 0.001 > 1
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: "SLO error budget has been exhausted!"
+            description: "The error budget for your service is being burned at a rate > 100% for the last 10 minutes."
+
