@@ -1,10 +1,10 @@
 # sample-metrics
 This repository contains sample spring boot application for SLO demo purposes
 
-# prerequisite
+# Prerequisites
 * install java-sdk 17, docker, minikube, helm, kubectl
 
-# upload docker image to docker hub
+# Upload docker image to docker hub
 ```bash
 # build jar
 mvn clean install
@@ -15,7 +15,7 @@ docker push wojciech13/wojtek:<tag-name>
 # 
 ```
 
-# deploy to minikube
+# Deploy to minikube
 ```bash
 # build jar
 mvn clean install
@@ -26,7 +26,7 @@ docker push wojciech13/wojtek:<tag-name>
 # 
 ```
 
-# install prometheus grafana stack on minikube (minikube must be started)
+# Install prometheus grafana stack on minikube (minikube must be started)
 ```bash
 # https://github.com/prometheus-community/helm-charts
 # add helm repo
@@ -37,7 +37,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack --version 45.
 kubectl get pods -n monitoring
 ```
 
-# deploy spring boot app to cluster
+# Deploy spring boot app to cluster
 ```bash
 # go to kubernetes directory
 cd kubernetes
@@ -47,7 +47,7 @@ kubectl apply -f .
 kubectl get pods -n monitoring
 ```
 
-# deploy prometheus rules
+# Deploy prometheus rules
 ```bash
 # go to prometheus directory
 cd prometheus
