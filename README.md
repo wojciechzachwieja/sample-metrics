@@ -72,7 +72,7 @@ kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80
 
 * alert `(1 - (sum(slo:good_requests:rate5m) / sum(slo:total_requests:rate5m))) / 0.001 > 1`
 
-# In order to simulate errors/ok you can send request to springboot-app
+# Simulate errors/ok, sending request to springboot-app (feel free to use postman or more advanced tools)
 ```bash
 # simulate error
 curl localhost:8080/error
